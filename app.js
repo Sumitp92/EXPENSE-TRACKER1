@@ -19,7 +19,7 @@ const DownloadFile = require('./routes/downloadfiles');
 const app = express();
 
 // Middleware setup
-app.use(helmet());
+app.use( helmet({ contentSecurityPolicy: false }) )
 app.use(compression());
 app.use(morgan('combined', { stream: fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' }) }));
 app.use(express.static(path.join(__dirname, 'public')));
