@@ -25,8 +25,8 @@ const ForgotPasswordRequests = sequelize.define('ForgotPasswordRequests', {
     },
 });
 
-//(Many-to-One)
-Authtable.hasMany(ForgotPasswordRequests, { foreignKey: 'userId' });
-ForgotPasswordRequests.belongsTo(Authtable, { foreignKey: 'userId' });
+// //(Many-to-One)
+// Authtable.hasMany(ForgotPasswordRequests, { foreignKey: 'userId' });
+// ForgotPasswordRequests.belongsTo(Authtable, { foreignKey: 'userId' });
 
 module.exports = ForgotPasswordRequests;

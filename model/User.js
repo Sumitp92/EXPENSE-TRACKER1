@@ -24,11 +24,4 @@ const NewRec = sequelize.define('authtable', {
     timestamps: true,
 });
 
-NewRec.associate = (models) => {
-    NewRec.hasMany(models.Expense, {
-        foreignKey: 'userId', 
-        onDelete: 'CASCADE',   
-    });
-};
-
 module.exports = NewRec;

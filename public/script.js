@@ -170,6 +170,55 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+
+document.getElementById('apply-filter').addEventListener('click', () => {
+    const selectedFilter = document.getElementById('filter').value; 
+    const token = localStorage.getItem('authToken');
+ 
+    let filterUrl = '/api/expenses?'; 
+    switch (selectedFilter) {
+        case 'daily':
+            filterUrl += 'filter=daily';
+            break;
+        case 'weekly':
+            filterUrl += 'filter=weekly';
+            break;
+        case 'monthly':
+            filterUrl += 'filter=monthly';
+            break;
+        case 'all':
+        default:
+            filterUrl += 'filter=all';
+            break;
+    }
+
+    axios.get(filterUrl, {
+            headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((response) => {
+            if (response.data.expenses) {
+                renderFilteredExpenses(response.data.expenses);
+            } else {
+                alert('No expenses found for the selected filter.');
+            }
+        })
+        .catch((error) => {
+            console.error('Error applying filter:', error.message);
+            alert('Failed to apply filter. Please try again.');
+        });
+});
+
+// Function to render filtered expenses
+function renderFilteredExpenses(expenses) {
+    const expenseList = document.getElementById('expense-list');
+    expenseList.innerHTML = ''; 
+    expenses.forEach((expense) => {
+        const listItem = document.createElement('li');
+        listItem.textContent = `${expense.category}: ₹${expense.amount} (${expense.description})`;
+        expenseList.appendChild(listItem);
+    });
+}
+
 //this is leaderboard code
 function displayLeaderboard(leaderboard) {
     const leaderboardList = document.getElementById('leaderboard-list');
@@ -183,11 +232,6 @@ function displayLeaderboard(leaderboard) {
 }
 document.getElementById('show-leaderboard').addEventListener('click', async () => {
     const token = localStorage.getItem('authToken');
-
-    // if (!token) {
-    //     alert('You need to log in to view the leaderboard.');
-    //     return;
-    // }
 
     try {
         const response = await axios.get('http://localhost:3000/api/premium/showleaderboard', {
