@@ -42,9 +42,9 @@ document.getElementById('LoginForm')?.addEventListener('submit', async (e) => {
         const response = await axios.post('http://localhost:3000/api/login', { email, password });
 
         if (response.data.success) {
-            const isPremium = response.data.user.isPremium; 
+            const isPremium = response.data.user.isPremium;
             localStorage.setItem('authToken', response.data.token);
-            localStorage.setItem('isPremium', isPremium); 
+            localStorage.setItem('isPremium', isPremium);
 
             alert('Login successful!');
             window.location.href = 'dashboard.html';
@@ -88,7 +88,7 @@ document.getElementById('ForgotPasswordForm')?.addEventListener('submit', async 
     }
 });
 
-    
+
 //downloadfile code 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -128,25 +128,25 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
+
+
     // Fetch past download history
     async function fetchDownloadHistory() {
         try {
             const response = await axios.get('http://localhost:3000/api/expenses/download-history', {
                 headers: { Authorization: `Bearer ${token}` },
             });
-            const files = response.data.history; 
+            const files = response.data.history;
             downloadHistory.innerHTML = ''; // Clear existing history
-    
+
             files.forEach((file) => {
                 const listItem = document.createElement('li');
                 listItem.innerHTML = `
                     <a href="${file.file_url}" target="_blank">Download File</a> 
-                    <span>(Downloaded on: ${new Date(file.download_date).toLocaleString()})</span>
-                `;
+                    <span>(Downloaded on: ${new Date(file.download_date).toLocaleString()})</span>`;
                 downloadHistory.appendChild(listItem);
             });
         } catch (error) {
-            console.error('Error fetching download history:', error.message);
             alert('Unable to load download history.');
         }
     }
@@ -163,19 +163,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (isPremium) {
         buyPremiumBtn.hidden = true; // Hide button if the user is premium
-        premiumMessage.textContent = 'You are a premium user!'; 
+        premiumMessage.textContent = 'You are a premium user!';
     } else {
         buyPremiumBtn.hidden = false; // Show button if the user is not premium
-        premiumMessage.textContent = ''; 
+        premiumMessage.textContent = '';
     }
 });
 
 
 document.getElementById('apply-filter').addEventListener('click', () => {
-    const selectedFilter = document.getElementById('filter').value; 
+    const selectedFilter = document.getElementById('filter').value;
     const token = localStorage.getItem('authToken');
- 
-    let filterUrl = '/api/expenses?'; 
+
+    let filterUrl = '/api/expenses?';
     switch (selectedFilter) {
         case 'daily':
             filterUrl += 'filter=daily';
@@ -193,8 +193,8 @@ document.getElementById('apply-filter').addEventListener('click', () => {
     }
 
     axios.get(filterUrl, {
-            headers: { Authorization: `Bearer ${token}` },
-        })
+        headers: { Authorization: `Bearer ${token}` },
+    })
         .then((response) => {
             if (response.data.expenses) {
                 renderFilteredExpenses(response.data.expenses);
@@ -211,7 +211,7 @@ document.getElementById('apply-filter').addEventListener('click', () => {
 // Function to render filtered expenses
 function renderFilteredExpenses(expenses) {
     const expenseList = document.getElementById('expense-list');
-    expenseList.innerHTML = ''; 
+    expenseList.innerHTML = '';
     expenses.forEach((expense) => {
         const listItem = document.createElement('li');
         listItem.textContent = `${expense.category}: ₹${expense.amount} (${expense.description})`;
@@ -222,7 +222,7 @@ function renderFilteredExpenses(expenses) {
 //this is leaderboard code
 function displayLeaderboard(leaderboard) {
     const leaderboardList = document.getElementById('leaderboard-list');
-    leaderboardList.innerHTML = ''; 
+    leaderboardList.innerHTML = '';
 
     leaderboard.forEach(entry => {
         const listItem = document.createElement('li');
@@ -278,15 +278,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (response.data && response.data.expense) {
                     editingExpense = null;
                     expForm.reset();
-                    fetchExpenses(); 
+                    fetchExpenses();
                 }
             } else {
-                const response = await axios.post('/api/expenses', 
+                const response = await axios.post('/api/expenses',
                     { amount, description, category },
                     { headers: { 'Authorization': `Bearer ${token}` } }
                 );
                 if (response.data && response.data.expense) {
-                    fetchExpenses(); 
+                    fetchExpenses();
                     expForm.reset();
                 }
             }
@@ -368,7 +368,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     itemsPerPageSelect.addEventListener('change', () => {
         itemsPerPage = parseInt(itemsPerPageSelect.value);
-        currentPage = 1; 
+        currentPage = 1;
         fetchExpenses();
     });
     prevPageBtn.addEventListener('click', () => {
@@ -386,14 +386,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     fetchExpenses();
 
- //razorpay premium code
+    //razorpay premium user code
     buyPremiumBtn.addEventListener('click', async () => {
         try {
             const token = localStorage.getItem('authToken');
             const response = await axios.get('http://localhost:3000/purchase/premiummember', {
                 headers: { Authorization: `Bearer ${token}` },
             });
-    
+
             const options = {
                 key: response.data.key_id,
                 order_id: response.data.order.id,
@@ -407,10 +407,10 @@ document.addEventListener('DOMContentLoaded', () => {
                             },
                             { headers: { Authorization: `Bearer ${token}` } }
                         );
-    
-                        localStorage.setItem('isPremium', 'true'); 
+
+                        localStorage.setItem('isPremium', 'true');
                         alert('You are now a premium user!');
-                        buyPremiumBtn.style.display = 'none'; // Hide the button
+                        buyPremiumBtn.style.display = 'none'; 
                     } catch (err) {
                         console.error('Error updating premium status:', err.message);
                     }
@@ -422,5 +422,5 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error initiating premium membership:', err.message);
         }
     });
-    
+
 });

@@ -19,7 +19,7 @@ const buyPremium = async (req, res) => {
         const razorpayOrder = await rzp.orders.create({
             amount,
             currency: 'INR',
-            receipt: `order_rcptid_${Date.now()}`,
+            receipt: `order_rcptid_${Date.now()}`,//return current timestamp in millisec
         });
         if (!razorpayOrder) throw new Error('Failed to create Razorpay order');
         res.status(201).json({
@@ -28,7 +28,7 @@ const buyPremium = async (req, res) => {
         });
     } catch (error) {
         console.error('Error creating Razorpay order:', error.message);
-        // res.status(500).json({ error: 'Error creating Razorpay order' });
+        res.status(500).json({ error: 'Error creating Razorpay order' });
     }
 };
 
@@ -37,7 +37,7 @@ const updatePremiumStatus = async (req, res) => {
     try {
         const { payment_id, order_id } = req.body;
         if (!payment_id || !order_id) {
-            return res.status(400).json({ error: 'Invalid request payload' });
+            return res.status(400).json({ error:'Invalid request' });
         }
         const rzp = new Razorpay({
             key_id: process.env.RAZORPAY_KEY_ID,
@@ -45,9 +45,8 @@ const updatePremiumStatus = async (req, res) => {
         });
 
         const paymentVerification = await rzp.payments.fetch(payment_id);
-        // console.log('Payment verification response:', paymentVerification);
-
-        if (!paymentVerification || paymentVerification.status !== 'captured') {
+        
+        if (!paymentVerification || paymentVerification.status !== 'captured')  { //this will ensure payment is successfully captured
             return res.status(400).json({ error: 'invalid payment ID' });
         }
         const user = await User.findByPk(req.user.id);
@@ -66,10 +65,9 @@ const updatePremiumStatus = async (req, res) => {
             process.env.JWT_SECRET, 
             { expiresIn: '1h' }
         );
-        console.log('Updated user:', user);
         res.status(200).json({ message: 'Transaction successful', token, order: newOrder });
+
     } catch (error) {
-        console.error('Error updating premium status:', error.message);
         res.status(500).json({ error: 'Error updating premium status' });
     }
 };
@@ -81,7 +79,7 @@ const updatePremiumStatus = async (req, res) => {
       const leaderboardData = await expenseRecord.findAll({
         attributes: [
           'userId',
-          [sequelize.fn('SUM', sequelize.col('amount')), 'totalExpense'],
+          [sequelize.fn('SUM', sequelize.col('amount')), 'totalExpense'], // fn is function for sum and col is specific column name 
         ],
         group: ['userId', 'user.id'], 
         order: [[sequelize.literal('totalExpense'), 'DESC']],
@@ -92,12 +90,11 @@ const updatePremiumStatus = async (req, res) => {
         },
       });
       const formattedLeaderboard = leaderboardData.map((record) => ({
-        userName: record.user ? record.user.name : 'Unknown User',
+        userName: record.user ? record.user.name : 'Unknown User', //if user is there it will written name if not it will written unknown user
         totalExpense: record.getDataValue('totalExpense'),
       }));
       res.status(200).json({ success: true, leaderboard: formattedLeaderboard });
     } catch (error) {
-      console.error('Error fetching leaderboard:', error);
       res.status(500).json({success: false,message: 'Error fetching leaderboard',error: error.message,});
     }
   };

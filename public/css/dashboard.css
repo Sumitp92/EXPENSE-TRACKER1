@@ -1,49 +1,38 @@
-/* Reset default styles */
-* {
+*{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-
-/* Body styling */
 body {
     font-family: 'Roboto', sans-serif;
-    background-color: #e8f5e9; /* Light green background */
+    background-color: #e8f5e9; 
     color: #333;
     line-height: 1.4;
 }
-
-/* Main container styling */
 .Expense {
-    background-color: #ffffff; /* White background for main container */
+    background-color: #ffffff; 
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     max-width: 950px;
-    margin: 30px 15px; /* Left-aligned with some margin */
+    margin: 30px 15px; 
     padding: 20px;
 }
-
-/* Heading */
 h2 {
     font-size: 20px;
     margin-bottom: 10px;
-    color: #2e7d32; /* Dark green heading */
+    color: #2e7d32; 
 }
-
-/* Form styling */
 form {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
-
 label {
     font-size: 14px;
     font-weight: 600;
-    color: #1b5e20; /* Deep green labels */
+    color: #1b5e20; 
     margin-bottom: 5px;
 }
-
 input, select {
     width: 100%;
     padding: 8px;
@@ -53,12 +42,9 @@ input, select {
     outline: none;
     transition: border-color 0.3s;
 }
-
 input:focus, select:focus {
-    border-color: #0288d1; /* Blue border on focus */
+    border-color: #0288d1; 
 }
-
-/* Button styling */
 button {
     padding: 8px;
     font-size: 13px;
@@ -67,46 +53,36 @@ button {
     cursor: pointer;
     transition: background-color 0.3s;
 }
-
 #submit-btn {
-    background-color: #43a047; /* Green button */
+    background-color: #43a047; 
     color: white;
 }
-
 #submit-btn:hover {
-    background-color: #388e3c; /* Darker green on hover */
+    background-color: #388e3c; 
 }
-
 #buy-premium {
-    background-color: #1976d2; /* Blue button */
+    background-color: #1976d2;
     color: white;
 }
-
 #buy-premium:hover {
-    background-color: #1565c0; /* Darker blue on hover */
+    background-color: #1565c0; 
 }
-
 #show-leaderboard {
-    background-color: #43a047; /* Green for leaderboard */
+    background-color: #43a047; 
     color: white;
 }
-
 #show-leaderboard:hover {
     background-color: #388e3c;
 }
-
-/* Entries Section */
 #entries-section {
     margin-top: 20px;
 }
-
 #expense-list {
     list-style: none;
     padding-left: 0;
 }
-
 #expense-list li {
-    background-color: #f1f8e9; /* Light green list background */
+    background-color: #f1f8e9; 
     border: 1px solid #ccc;
     border-radius: 6px;
     padding: 8px;
@@ -116,21 +92,15 @@ button {
     align-items: center;
     font-size: 13px;
 }
-
 #expense-list li span {
     color: #333;
 }
-
-/* Other components retain similar styling */
-
-
 #pagination {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-top: 10px;
 }
-
 #pagination button {
     padding: 8px 16px;
     background-color: #007bff;
@@ -140,13 +110,10 @@ button {
     cursor: pointer;
     font-size: 13px;
 }
-
 #pagination button:disabled {
     background-color: #ccc;
     cursor: not-allowed;
 }
-
-/* Items Per Page Selector */
 #itemsPerPage {
     padding: 6px;
     font-size: 12px;
@@ -154,12 +121,9 @@ button {
     border: 1px solid #ddd;
     width: 80px;
 }
-
-/* Download Section */
 #download-section {
     margin-top: 20px;
 }
-
 #download-button {
     padding: 8px;
     background-color: #ffc107;
@@ -169,19 +133,15 @@ button {
     font-size: 13px;
     cursor: pointer;
 }
-
 #download-button:disabled {
     background-color: #ccc;
     cursor: not-allowed;
 }
-
-/* Download History Section */
 #download-history {
     list-style: none;
     padding-left: 0;
     margin-top: 20px;
 }
-
 #download-history li {
     background-color: #f9f9f9;
     border: 1px solid #ddd;
@@ -192,24 +152,4 @@ button {
     color: #555;
 }
 
-/* Responsive Design */
-@media screen and (max-width: 768px) {
-    .Expense {
-        padding: 15px;
-    }
-
-    #filter-section {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    #pagination {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    #itemsPerPage {
-        width: 100%;
-    }
-}
 

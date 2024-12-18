@@ -1,32 +1,32 @@
-const sequelize = require('../util/databases');
-const NewRec = require('./User'); 
-const Expense = require('./expenses'); 
-const Order = require('./order'); 
+// const sequelize = require('../util/databases');
+// const NewRec = require('./User'); 
+// const Expense = require('./expenses'); 
+// const Order = require('./order'); 
 
-NewRec.hasMany(Expense, {
-    foreignKey: 'userId',
-    onDelete: 'CASCADE',
-    as: 'expenses', 
-});
+// NewRec.hasMany(Expense, {
+//     foreignKey: 'userId',
+//     onDelete: 'CASCADE',
+//     as: 'expenses', 
+// });
 
-Expense.belongsTo(NewRec, {
-    foreignKey: 'userId',
-    as: 'user', 
-});
+// Expense.belongsTo(NewRec, {
+//     foreignKey: 'userId',
+//     as: 'user', 
+// });
 
-NewRec.hasMany(Order, {
-    foreignKey: 'userId',
-    onDelete: 'CASCADE',
-    as: 'orders',  
-});
+// NewRec.hasMany(Order, {
+//     foreignKey: 'userId',
+//     onDelete: 'CASCADE',
+//     as: 'orders',  
+// });
 
-Order.belongsTo(NewRec, {
-    foreignKey: 'userId',
-    as: 'user',  
-});
+// Order.belongsTo(NewRec, {
+//     foreignKey: 'userId',
+//     as: 'user',  
+// });
 
-module.exports = {
-    NewRec,
-    Expense,
-    Order,
-};
+// module.exports = {
+//     NewRec,
+//     Expense,
+//     Order,
+// };

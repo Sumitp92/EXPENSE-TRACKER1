@@ -57,26 +57,20 @@ const forgotPassword = async (req, res) => {
 // Validate Reset Request
 
 const validateResetRequest = async (req, res) => {
-    const { resetId } = req.params;
     try {
-        const resetRequest = await ResetRequest.findOne({
-            where: { id: resetId, isActive: true },
-        });
-        if (!resetRequest) {
-            return res.status(400).json({ success: false, message: 'expired reset link'});
-        }
-        const expirationTime = 60 * 60 * 1000; 
-        const isExpired = Date.now() - new Date(resetRequest.createdAt).getTime() > expirationTime;
-        if (isExpired) {
-            return res.status(400).json({ success: false, message: 'Reset link has expired.' });
-        }
+        const { resetId } = req.params;
+        const resetRequest = await ResetRequest.findOne({ where: { id: resetId, isActive: true } });
 
+        if (!resetRequest                                                                                             || Date.now() - new Date(resetRequest.createdAt).getTime() > 3600000) {
+            return res.status(400).json({ success: false, message: 'Expired reset link.' });
+        }
         res.sendFile(path.join(__dirname, '../public/reset.html'));
+        
     } catch (error) {
-        console.error('Error validating reset link:', error);
         res.status(500).json({ success: false, message: 'Error validating reset link.' });
     }
 };
+
 
 // Reset Password
 

@@ -15,7 +15,7 @@ app.use(compression());
 app.use(morgan('combined', { stream: fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' }) }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
-app.use(express.urlencoded({ extended: true })); // For URL-encoded data
+app.use(express.urlencoded({ extended: true })); 
 
 
 const generalRoutes = require('./routes/router');
@@ -42,13 +42,11 @@ const Download = require('./model/download');
 User.hasMany(Expense, { foreignKey: 'userId', as: 'expenses' });
 Expense.belongsTo(User, { foreignKey: 'userId', as: 'user' });
 
-
 User.hasMany(Order, { foreignKey: 'userId' });
 Order.belongsTo(User, { foreignKey: 'userId' });
 
 User.hasMany(ForgotPasswordRequests, { foreignKey: 'userId' });
 ForgotPasswordRequests.belongsTo(User, { foreignKey: 'userId' });
-
 
 
 app.get('/', (req, res) => {
@@ -57,6 +55,7 @@ app.get('/', (req, res) => {
 app.get('/login', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'login.html'));
 });
+
 
 sequelize.sync({ force: false })
     .then(() => {

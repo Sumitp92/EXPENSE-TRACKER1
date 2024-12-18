@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../util/databases');
-const User = require('./User'); // Import the User model
+const User = require('./User'); 
 
 const Expense = sequelize.define('expensetable', {
     amount: {
@@ -22,7 +22,7 @@ const Expense = sequelize.define('expensetable', {
     userId: { 
         type: Sequelize.INTEGER,
         references: {
-            model: User,  // Reference the correct model here
+            model: User,  
             key: 'id' 
         },
         allowNull: false,

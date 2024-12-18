@@ -13,7 +13,7 @@ const AddUser = async (req, res) => {
         if (existingUser) {
             return res.status(400).json({ success: false, message: 'User already exists' });
         }
-        const hashedPassword = await bcrypt.hash(password, 10);
+        const hashedPassword = await bcrypt.hash(password, 10);//number of salt round which adds randomness
         const newUser = await User.create({
             name,
             email,
@@ -54,7 +54,6 @@ const LoginUser = async (req, res) => {
             },
         });
     } catch (error) {
-        console.log('Error during login:', error);
         res.status(500).json({ success: false, message: 'Error occurred during login' });
     }
 };
